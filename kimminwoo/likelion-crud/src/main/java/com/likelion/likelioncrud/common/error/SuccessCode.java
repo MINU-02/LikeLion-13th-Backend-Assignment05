@@ -17,9 +17,12 @@ public enum SuccessCode {
 
     MEMBER_DELETE_SUCCESS(HttpStatus.OK, "성공적으로 삭제되었습니다."),
     POST_DELETE_SUCCESS(HttpStatus.OK, "성공적으로 삭제되었습니다."),
+    TAG_UPDATE_SUCCESS(HttpStatus.OK, "태그가 성공적으로 수정되었습니다."),
 
     MEMBER_SAVE_SUCCESS(HttpStatus.CREATED, "성공적으로 저장되었습니다."),
-    POST_SAVE_SUCCESS(HttpStatus.CREATED, "성공적으로 저장되었습니다.");
+    POST_SAVE_SUCCESS(HttpStatus.CREATED, "성공적으로 저장되었습니다."),
+    TAG_DELETE_SUCCESS(HttpStatus.OK, "태그가 성공적으로 삭제되었습니다.");
+
 
     private final HttpStatus httpStatus;
     private final String message;

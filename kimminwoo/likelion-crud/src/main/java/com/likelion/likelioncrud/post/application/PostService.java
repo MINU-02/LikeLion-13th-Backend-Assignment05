@@ -10,6 +10,10 @@ import com.likelion.likelioncrud.post.api.dto.response.PostInfoResponseDto;
 import com.likelion.likelioncrud.post.api.dto.response.PostListResponseDto;
 import com.likelion.likelioncrud.post.domain.Post;
 import com.likelion.likelioncrud.post.domain.repository.PostRepository;
+import com.likelion.likelioncrud.posttag.domain.PostTag;
+import com.likelion.likelioncrud.posttag.domain.repository.PostTagRepository;
+import com.likelion.likelioncrud.tag.domain.Tag;
+import com.likelion.likelioncrud.tag.domain.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +27,8 @@ public class PostService {
 
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
+    private final TagRepository tagRepository;
+    private final PostTagRepository postTagRepository;
 
     // 게시물 저장
     @Transactional
@@ -40,6 +46,24 @@ public class PostService {
                 .build();
 
         postRepository.save(post);
+
+        List<Long> tagIds = postSaveRequestDto.tagIds();
+        if (tagIds != null && !tagIds.isEmpty()) {
+            tagIds.forEach(tagId -> {
+                Tag tag = tagRepository.findById(tagId)
+                        .orElseThrow(() -> new BusinessException(
+                                ErrorCode.TAG_NOT_FOUND_EXCEPTION,
+                                ErrorCode.TAG_NOT_FOUND_EXCEPTION.getMessage() + tagId
+                        ));
+
+                PostTag postTag = PostTag.builder()
+                        .post(post)
+                        .tag(tag)
+                        .build();
+
+                postTagRepository.save(postTag);
+            });
+        }
     }
 
     // 특정 작성자가 작성한 게시글 목록 조회

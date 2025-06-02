@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private final PostService postService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<ApiResTemplate<Void>> postSave(@RequestBody @Valid PostSaveRequestDto postSaveRequestDto) {
         postService.postSave(postSaveRequestDto);
         return ResponseEntity.ok(ApiResTemplate.successWithNoContent(SuccessCode.POST_SAVE_SUCCESS));

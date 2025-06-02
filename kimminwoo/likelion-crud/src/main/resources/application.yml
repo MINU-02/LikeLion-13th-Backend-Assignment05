@@ -3,10 +3,10 @@ spring:
     active: prod
 
   datasource:
-    url: jdbc:mysql://localhost:3306/likelion2
-    username: root
-    password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: ${spring.datasource.driver-class-name}
 
   jpa:
     hibernate:
