@@ -19,6 +19,6 @@ public record PostSaveRequestDto(
         @Size(min = 2, max = 10)
         String contents,
 
-        List<Long> tagIds
+        List<String> tagNames
 ) {
 }

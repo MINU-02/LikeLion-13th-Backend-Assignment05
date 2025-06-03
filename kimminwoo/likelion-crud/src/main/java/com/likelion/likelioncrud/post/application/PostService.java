@@ -47,14 +47,12 @@ public class PostService {
 
         postRepository.save(post);
 
-        List<Long> tagIds = postSaveRequestDto.tagIds();
-        if (tagIds != null && !tagIds.isEmpty()) {
-            tagIds.forEach(tagId -> {
-                Tag tag = tagRepository.findById(tagId)
-                        .orElseThrow(() -> new BusinessException(
-                                ErrorCode.TAG_NOT_FOUND_EXCEPTION,
-                                ErrorCode.TAG_NOT_FOUND_EXCEPTION.getMessage() + tagId
-                        ));
+        List<String> tagNames = postSaveRequestDto.tagNames();
+        if (tagNames != null && !tagNames.isEmpty()) {
+            tagNames.forEach(tagName -> {
+                // 태그가 없으면 새로 저장
+                Tag tag = tagRepository.findByName(tagName)
+                        .orElseGet(() -> tagRepository.save(Tag.builder().name(tagName).build()));
 
                 PostTag postTag = PostTag.builder()
                         .post(post)
